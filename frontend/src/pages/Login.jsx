@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 
@@ -36,7 +36,7 @@ function Login() {
 
   return (
     <div className="min-h-screen flex bg-gray-100">
-      <div className="hidden md:flex flex-1 flex-col justify-center items-start px-16 bg-gradient-to-br from-blue-900 to-blue-700 text-white">
+      <div className="hidden md:flex flex-1 flex-col justify-center items-start px-16 bg-linear-to-br from-blue-900 to-blue-700 text-white">
         <h1 className="text-4xl font-bold mb-4">
           License & Insurance
           <br />
@@ -98,7 +98,9 @@ function Login() {
 
             <p className="text-center text-sm text-gray-500">
               Don't have an account?{' '}
-              <span className="text-blue-600 font-medium cursor-pointer">Sign up</span>
+              <Link to="/register" className="text-blue-600 font-medium">
+                Sign up
+              </Link>
             </p>
           </form>
         </div>
