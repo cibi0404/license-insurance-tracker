@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Navbar from '../components/Navbar';
+import Sidebar from '../components/Sidebar';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { Pencil, Trash2, Eye } from 'lucide-react';
@@ -100,10 +100,10 @@ function Licenses() {
   const canDelete = user?.role === 'Admin' || user?.role === 'Manager';
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar />
+    <div className="min-h-screen bg-gray-50 flex">
+      <Sidebar />
 
-      <div className="max-w-5xl mx-auto px-6 py-8">
+      <div className="flex-1 px-6 py-8 w-full">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold">Licenses</h2>
           <button

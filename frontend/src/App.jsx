@@ -6,6 +6,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Licenses from './pages/Licenses';
 import Policies from './pages/Policies';
+import Layout from './components/Layout';
 
 function App() {
   return (
@@ -19,26 +20,32 @@ function App() {
             path="/dashboard"
             element={
               <ProtectedRoute>
-                <Dashboard />
+                <Layout>
+                  <Dashboard />
+                </Layout>
               </ProtectedRoute>
             }
           />
           <Route
             path="/licenses"
             element={
-           <ProtectedRoute>
-              <Licenses />
-           </ProtectedRoute>
-                    }
-                    />
-                    <Route
-                      path="/policies"
-                      element={
-                       <ProtectedRoute>
-                          <Policies />
-                        </ProtectedRoute>
-  }
-/>
+              <ProtectedRoute>
+                <Layout>
+                  <Licenses />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/policies"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <Policies />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

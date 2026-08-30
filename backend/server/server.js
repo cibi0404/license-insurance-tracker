@@ -8,6 +8,7 @@ const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const licenseRoutes = require('./routes/licenseRoutes');
 const policyRoutes = require('./routes/policyRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/licenses', licenseRoutes);
 app.use('/api/policies', policyRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Server is running' });
