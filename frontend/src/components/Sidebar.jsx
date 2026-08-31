@@ -1,13 +1,17 @@
+// frontend/src/components/Sidebar.jsx (updated NAV_ITEMS)
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, FileText, ShieldCheck, LogOut, ChevronUp, ChevronDown, Mail, BadgeCheck, Fingerprint } from 'lucide-react';
+import { LayoutDashboard, FileText, ShieldCheck, LogOut, ChevronUp, ChevronDown, Mail, BadgeCheck, Fingerprint, Home } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const NAV_ITEMS = [
+  { to: '/welcome', label: 'Home', icon: Home },
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/licenses', label: 'Licenses', icon: FileText },
   { to: '/policies', label: 'Policies', icon: ShieldCheck },
 ];
+
+// ... rest of the Sidebar component remains the same
 
 function initials(name = '') {
   return name
