@@ -28,7 +28,7 @@ function Register() {
     try {
       const res = await api.post('/auth/register', { name, email, password, role });
       login(res.data);
-      navigate('/dashboard');
+      navigate('/welcome');
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed. Please try again.');
     } finally {

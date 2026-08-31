@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import Sidebar from '../components/Sidebar';
 import api from '../services/api';
 
 function Policies() {
@@ -63,11 +62,8 @@ function Policies() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      <Sidebar />
-
-      <div className="flex-1 px-6 py-8 w-full">
-        <div className="flex items-center justify-between mb-6">
+    <div className="w-full">
+      <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold">Insurance Policies</h2>
           <button
             onClick={() => setShowForm(!showForm)}
@@ -222,7 +218,6 @@ function Policies() {
             </table>
           </div>
         )}
-      </div>
     </div>
   );
 }
