@@ -73,7 +73,12 @@ const updateLicense = async (req, res) => {
       return res.status(403).json({ message: 'Not authorized to edit this license' });
     }
 
-    const updated = await License.findByIdAndUpdate(req.params.id, req.body, {
+    const updates = { ...req.body };
+    if (updates.expiryDate && updates.status !== 'pending-verification') {
+      updates.status = computeInitialStatus(updates.expiryDate);
+    }
+
+    const updated = await License.findByIdAndUpdate(req.params.id, updates, {
       new: true,
       runValidators: true,
     });

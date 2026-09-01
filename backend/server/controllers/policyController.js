@@ -1,4 +1,5 @@
 const InsurancePolicy = require('../models/InsurancePolicy');
+const { syncExpiryStatuses, computeInitialStatus } = require('../utils/statusSync');
 
 // GET /api/policies
 const getPolicies = async (req, res) => {
@@ -8,6 +9,8 @@ const getPolicies = async (req, res) => {
     if (req.user.role === 'Employee') {
       filter.holder = req.user._id;
     }
+
+    await syncExpiryStatuses(InsurancePolicy, filter);
 
     const policies = await InsurancePolicy.find(filter).populate('holder', 'name email role');
     res.json(policies);
@@ -19,6 +22,7 @@ const getPolicies = async (req, res) => {
 // GET /api/policies/:id
 const getPolicyById = async (req, res) => {
   try {
+    await syncExpiryStatuses(InsurancePolicy, { _id: req.params.id });
     const policy = await InsurancePolicy.findById(req.params.id).populate('holder', 'name email role');
 
     if (!policy) {
@@ -48,6 +52,7 @@ const createPolicy = async (req, res) => {
       premium,
       startDate,
       expiryDate,
+      status: computeInitialStatus(expiryDate),
     });
 
     res.status(201).json(policy);
@@ -69,7 +74,12 @@ const updatePolicy = async (req, res) => {
       return res.status(403).json({ message: 'Not authorized to edit this policy' });
     }
 
-    const updated = await InsurancePolicy.findByIdAndUpdate(req.params.id, req.body, {
+    const updates = { ...req.body };
+    if (updates.expiryDate && updates.status !== 'pending-verification') {
+      updates.status = computeInitialStatus(updates.expiryDate);
+    }
+
+    const updated = await InsurancePolicy.findByIdAndUpdate(req.params.id, updates, {
       new: true,
       runValidators: true,
     });

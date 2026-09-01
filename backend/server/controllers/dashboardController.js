@@ -1,5 +1,6 @@
 const License = require('../models/License');
 const InsurancePolicy = require('../models/InsurancePolicy');
+const { syncExpiryStatuses } = require('../utils/statusSync');
 
 const STATUSES = ['active', 'expiring-soon', 'expired', 'pending-verification'];
 
@@ -27,6 +28,11 @@ const getDashboardStats = async (req, res) => {
     if (req.user.role === 'Employee') {
       filter.holder = req.user._id;
     }
+
+    await Promise.all([
+      syncExpiryStatuses(License, filter),
+      syncExpiryStatuses(InsurancePolicy, filter),
+    ]);
 
     const [licenseCounts, policyCounts] = await Promise.all([
       countsByStatus(License, filter),
