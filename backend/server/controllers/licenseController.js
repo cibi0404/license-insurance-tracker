@@ -1,4 +1,5 @@
 const License = require('../models/License');
+const { syncExpiryStatuses, computeInitialStatus } = require('../utils/statusSync');
 
 // GET /api/licenses
 const getLicenses = async (req, res) => {
@@ -8,6 +9,8 @@ const getLicenses = async (req, res) => {
     if (req.user.role === 'Employee') {
       filter.holder = req.user._id;
     }
+
+    await syncExpiryStatuses(License, filter);
 
     const licenses = await License.find(filter).populate('holder', 'name email role');
     res.json(licenses);
@@ -19,6 +22,7 @@ const getLicenses = async (req, res) => {
 // GET /api/licenses/:id
 const getLicenseById = async (req, res) => {
   try {
+    await syncExpiryStatuses(License, { _id: req.params.id });
     const license = await License.findById(req.params.id).populate('holder', 'name email role');
 
     if (!license) {
@@ -47,6 +51,7 @@ const createLicense = async (req, res) => {
       issuingAuthority,
       issueDate,
       expiryDate,
+      status: computeInitialStatus(expiryDate),
     });
 
     res.status(201).json(license);

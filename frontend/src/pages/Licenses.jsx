@@ -99,8 +99,8 @@ function Licenses() {
   const canDelete = user?.role === 'Admin' || user?.role === 'Manager';
 
   return (
-    <div className="w-full">
-      <div className="flex items-center justify-between mb-6">
+    <div className="flex-1 px-6 py-8 w-full">
+        <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold">Licenses</h2>
           <button
             onClick={() => (showForm ? handleCancel() : setShowForm(true))}
@@ -268,7 +268,7 @@ function Licenses() {
     title="View"
   >
     <Eye size={16} />
-  </button> 
+  </button> 
   <button
     onClick={() => handleEdit(license)}
     className="text-gray-500 hover:text-blue-600"
@@ -293,7 +293,7 @@ function Licenses() {
             </table>
           </div>
         )}
-    </div>
+      </div>
   );
 }
 

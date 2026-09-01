@@ -62,8 +62,8 @@ function Policies() {
   };
 
   return (
-    <div className="w-full">
-      <div className="flex items-center justify-between mb-6">
+    <div className="flex-1 px-6 py-8 w-full">
+        <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold">Insurance Policies</h2>
           <button
             onClick={() => setShowForm(!showForm)}
@@ -218,7 +218,7 @@ function Policies() {
             </table>
           </div>
         )}
-    </div>
+      </div>
   );
 }
 
