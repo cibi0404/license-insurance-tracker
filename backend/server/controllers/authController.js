@@ -8,14 +8,19 @@ const generateToken = (userId) => {
 // POST /api/auth/register
 const registerUser = async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, password } = req.body;
 
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(400).json({ message: 'User already exists' });
     }
 
-    const user = await User.create({ name, email, password, role });
+    // Role is intentionally never taken from the request body here.
+    // Letting a public sign-up endpoint set its own role (e.g. "Admin")
+    // is a privilege-escalation hole. Every self-registered account starts
+    // as an Employee; promoting someone to Manager/Admin should go through
+    // a separate authenticated, admin-only endpoint.
+    const user = await User.create({ name, email, password, role: 'Employee' });
 
     res.status(201).json({
       _id: user._id,
